@@ -27,6 +27,7 @@ import { Photos } from "./components/Photos";
 import { Voice } from "./components/Voice";
 import { Preview } from "./components/Preview";
 import { ExportPanel } from "./components/ExportPanel";
+import { MerchantIntroduction } from "./components/MerchantIntroduction";
 const portal =
   configuredUrl(import.meta.env.VITE_KHMER_ONE_PORTAL_URL) ||
   "https://khmerone.jaredrobertw.workers.dev/";
@@ -450,14 +451,15 @@ export default function App() {
               <span className="sun" />
               KHMER ONE · SHOP STORY
             </div>
-            <h1>{t("tagline")}</h1>
-            <p>{t("fullName")}</p>
+            <h1>{t("merchantHeadline")}</h1>
+            <p className="merchant-purpose">{t("merchantPurpose")}</p>
           </div>
           <div className="local-badge">
             <ShieldCheck size={18} />
             {t(online ? "online" : "offline")}
           </div>
         </section>
+        <MerchantIntroduction t={t} />
         <div className="progress-track">
           <div className="progress-text">
             <strong>

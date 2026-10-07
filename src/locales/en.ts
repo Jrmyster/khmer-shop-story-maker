@@ -3,6 +3,22 @@ export const en = {
   app: "Shop Story",
   fullName: "Khmer Shop Story Maker",
   tagline: "Your shop. Your story.",
+  merchantHeadline: "Turn product photos into shop promotions.",
+  merchantPurpose:
+    "Khmer Shop Story Maker helps Cambodian merchants, food sellers, and small businesses create attractive vertical advertisements without complicated editing software. Combine your product photos, Khmer or English descriptions, prices, and contact details so customers can see what you sell and how to order.",
+  merchantHow: "From your shop to social media in three simple steps",
+  merchantStepTitles: [
+    "1. Add your products",
+    "2. Tell your story",
+    "3. Download and post",
+  ],
+  merchantStepBodies: [
+    "Upload 1–5 photos from your phone or take new ones. Add your shop name, prices in riel or dollars, and ordering details.",
+    "Type a description or record your voice, edit your captions, and choose a visual template. Preview your promotion before exporting.",
+    "Download a story image or a short video where your browser supports it. Upload it yourself to Facebook, TikTok, Telegram, or Instagram.",
+  ],
+  merchantPublishingNote:
+    "You choose where and when to post. This app does not automatically publish to social media, run paid ads, or guarantee sales. Your drafts are saved on this device by default.",
   portal: "Back to Khmer One",
   help: "Privacy & help",
   history: "My projects",
