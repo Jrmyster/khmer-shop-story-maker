@@ -8,7 +8,8 @@
 3. Core features need no secret or backend. Optional public build settings are
    documented in `.env.example`. Set `VITE_APP_URL` to the actual HTTPS app URL
    after the first deployment; do not invent a hostname in a portal card.
-4. Cloudflare Pages uses `public/_headers` and `_redirects` copied to `dist`.
+4. Cloudflare Pages uses `public/_headers` copied to `dist`. Its default SPA
+   fallback works without `_redirects` when no top-level `404.html` is present.
    Keep `sw.js` non-cacheable and hashed `/assets/` immutable.
 5. Visit once online, wait for complete cache installation, close/reopen the app
    and verify offline access and saved-draft recovery on an Android phone.
@@ -29,11 +30,48 @@ never committed. Do not put a Cloudflare API token in a VITE variable.
 
 ## Cloudflare Workers Static Assets
 
-A Workers Static Assets deployment is also possible with a project config
-containing `assets.directory = "./dist"` and an SPA not-found policy. If using
-Workers rather than Pages, explicitly reproduce the security and cache headers
-when the platform/configuration does not apply the Pages `_headers` file.
-No executable Worker is required for the default local-first editor.
+The committed `wrangler.json` uploads `./dist` as static assets and uses
+`assets.not_found_handling = "single-page-application"` for navigation to
+unmatched paths. No executable Worker or Vite Cloudflare plugin is required
+for the default local-first editor. Workers Static Assets applies the existing
+`_headers` rules, including security headers and service-worker cache control.
+
+For the Cloudflare **Workers Builds** Git integration use:
+
+| Setting        | Value                             |
+| -------------- | --------------------------------- |
+| Repository     | `Jrmyster/khmer-shop-story-maker` |
+| Branch         | `main`                            |
+| Root directory | Repository root                   |
+| Worker name    | `khmer-shop-story-maker`          |
+| Build command  | `npm run build`                   |
+| Deploy command | `npm run deploy:cloudflare`       |
+
+The deploy script pins Wrangler and uploads the already-built assets. It does
+not run the build again. Locally, after authentication to the intended account:
+
+```sh
+npm ci
+npm run build
+npm run deploy:cloudflare:check
+npm run deploy:cloudflare
+```
+
+### Fix for Cloudflare error 100324
+
+The previous `public/_redirects` contained `/* /index.html 200`. Workers rejects
+that catch-all rule with "Infinite loop detected" because HTML canonicalization
+can strip `/index.html` to `/` and trigger the same rule again. Use the native
+SPA fallback in `wrangler.json` instead. Do not restore the catch-all rewrite.
+
+The fixed source must be built into a fresh `dist` folder; Vite clears its
+previous output on build. If the dashboard is retrying an older commit, start a
+build of the latest `main` commit instead. Asset upload success alone does not
+mean a Worker version was successfully deployed.
+
+After deployment, check `/` and an unmatched navigation path, verify the
+security/cache headers, and test saved-draft recovery offline. Build and dry-run
+success do not replace this live check.
 
 ## Hosting scope and installation
 

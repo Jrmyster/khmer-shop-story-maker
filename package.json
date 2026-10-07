@@ -10,6 +10,8 @@
     "dev": "vite --host 0.0.0.0",
     "build": "tsc -b && vite build && node scripts/build-sw.mjs",
     "preview": "vite preview --host 0.0.0.0",
+    "deploy:cloudflare": "npx --yes wrangler@4.148.0 deploy --config wrangler.json",
+    "deploy:cloudflare:check": "npx --yes wrangler@4.148.0 deploy --config wrangler.json --dry-run",
     "typecheck": "tsc -b --pretty false",
     "lint": "eslint .",
     "test": "vitest run",
